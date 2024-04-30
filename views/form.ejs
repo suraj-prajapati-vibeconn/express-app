@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %> page</title>
+    <link rel="stylesheet" href="styles/form.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <div class="formWrapper">
+      <h1> <%= title %> </h1>
+      <% if (alternateRoute==='login') { %>
+        <form action="/users/signup" method="post">
+      <% } else { %>
+        <form action="/users/login" method="post">
+       <% } %>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+        />
+        <% if (type==='signup' ) { %>
+        <input
+          type="password"
+          name="confirm"
+          id="confirm"
+          placeholder="Confirm Password"
+        />
+        <% } %>
+        <button type="submit">Submit</button>
+
+        <% if (type==='signup' ) { %>
+        <p class="extra"><a href="<%= alternateRoute %>" >Login Here</a></p>
+        <% } else { %>
+        <p class="extra"><a href="<%= alternateRoute %>">Create an account</a></p>
+        <% } %>
+      </form>
+    </div>
+  </body>
+</html>

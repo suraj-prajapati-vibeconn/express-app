@@ -1,0 +1,12 @@
+.nav-item form button {
+    outline: none;
+    background: transparent;
+    border: none;
+    margin: auto;
+    padding: 6px;
+    color: #f41a1a;
+}
+.main-full-screen{
+    height: calc(100vh - 112px);
+    background-color: #eee;
+}
