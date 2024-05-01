@@ -2,6 +2,7 @@
 <div class="container-fluid main-full-screen">
     <div class="container">
         <h1>Welcome to home page.</h1>
+        <%- include('templates/queryform.ejs', {actiontype:locals.actiontype, groupType:locals.groupType}) %> 
     </div>
 </div>
-<%- include( 'templates/footer.ejs' ) %>
+<!-- <%- include( 'templates/footer.ejs' ) %> -->

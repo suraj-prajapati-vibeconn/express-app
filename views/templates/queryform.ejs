@@ -1,0 +1,98 @@
+<div class="c">
+  <form action="/" method="get" class="form1">
+    <label for="groupType">Select Group</label>
+    <select name="groupType" id="groupType">
+      <option value="cars" selected>cars</option>
+      <option value="director">director</option>
+      <option value="company">company</option>
+    </select>
+    <label for="actionType">Select action</label>
+    <select name="actionType" id="actionType">
+      <option value="create" selected>create</option>
+      <option value="search">search</option>
+    </select>
+    <button type="submit">Go</button>
+  </form>
+
+  <% if (( locals.actionType === 'search')) { %>
+  <form action="query/getdata" method="post" class="form2">
+    <input type="text" name="query" id="query" />
+    <button type="submit">Search</button>
+  </form>
+
+  <% } %> 
+  
+<% if ( actionType=== 'create') { %> 
+    <% if (groupType === 'cars') { %>
+    <form action="query/create" method="post" class="cars form2">
+        <input type="text" name="name" id="name" placeholder="Brand name" />
+        <input type="text" name="model" id="model" placeholder="Model" />
+        <input type="text" name="userid" id="userid" placeholder="User id" />
+        <button type="submit">Create</button>
+    </form>
+    <% } %> 
+  
+    <% if (groupType==='company') { %>
+    <form action="query/create" method="post" class="company form2">
+        <input type="text" name="name" id="name" placeholder="Company name" />
+        <button type="submit">Create</button>
+    </form>
+
+    <% } %>
+
+    <% if (groupType==='director') { %>
+    <form action="query/create" method="post" class="director form2">
+        <input type="text" name="name" id="name" placeholder="Director name" />
+        <button type="submit">Create</button>
+    </form>
+    <% } %>
+
+<% } %>
+
+</div>
+<style>
+  .queryform {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: auto;
+  }
+
+  .form1 {
+    width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
+  .form2 {
+    width: 400px;
+    margin: auto;
+  }
+  select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button[type="submit"] {
+    background-color: #0074d9;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  input[type="text"] {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+</style>

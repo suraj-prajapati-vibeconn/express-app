@@ -5,9 +5,9 @@ import { IUserRequest } from '../types/userRequests';
 const webViewRouter = express.Router();
 
 // protected user routes
-webViewRouter.get('/', isValidUser, (req:IUserRequest, res:express.Response)=>{
-    const {name} = req.user;
-    res.render('index.ejs', {title:'Home Page', username:name})
+webViewRouter.get('/', (req:IUserRequest, res:express.Response)=>{
+    const {groupType, actionType} = req.query;
+    res.render('index.ejs', {title:'Home Page', username:'suraj', groupType, actionType})
 })
 
 webViewRouter.get('/about', isValidUser, (req:IUserRequest, res:express.Response)=>{

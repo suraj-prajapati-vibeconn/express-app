@@ -8,8 +8,41 @@ datasource db {
 }
 
 model UserDetails{
-  id Int @id @default(autoincrement())
+  uid Int @id @default(autoincrement())
   name String @unique
   password String
   isAdmin Boolean @default(false) 
+  cars Cars[]
+}
+
+model Cars{
+  cid Int @id @default(autoincrement())
+  name String
+  model String
+  user UserDetails @relation(fields: [uid], references: [uid])
+  uid Int
+}
+
+model Directors{
+  did Int @id @default(autoincrement())
+  name String
+  companydirectors CompanyDirector[]
+
+}
+
+model Company{
+  com_id Int @id @default(autoincrement())
+  name String
+  companydirectors CompanyDirector[]
+}
+
+model CompanyDirector{
+  id Int @id @default(autoincrement())
+
+  director Directors @relation(fields: [did], references: [did])
+  did Int
+
+  company Company @relation(fields: [cid], references: [com_id])
+  cid Int
+  
 }
