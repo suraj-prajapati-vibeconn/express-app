@@ -2,12 +2,13 @@ import prisma from "../database/db";
 import { createToken } from "../utils/session";
 import { IUserRequest } from "../types/userRequests";
 import { Response, Request } from "express";
+import User from "../models/userModel";
 
 const createData = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
     
-    const queryRes: any = await prisma.userDetails.findFirst({
+    const queryRes: any = await User.findAll({
       where:{
         name:username,
         password:password
@@ -35,12 +36,12 @@ const getData = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
     // console.log(username, password);
-    const queryRes: any = await prisma.userDetails.create({data:{
+    const queryRes: any = await User.create({
       name:username,
       password:password,
       isAdmin:true
+    })
 
-    }})
     const token = createToken(queryRes);
     res.cookie("token", token);
     res.redirect("/");

@@ -1,4 +1,21 @@
-import { PrismaClient } from "@prisma/client";
+import { Sequelize } from 'sequelize';
 
-const prisma = new PrismaClient();
-export default prisma;
+
+const sequelize = new Sequelize(process.env.DATABASE_URL as string, {
+    dialect:'postgres'
+})
+
+const checkConnection = async ()=>{
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+      } catch (error) {
+        console.error('Unable to connect to the database:', error);
+      }
+}
+
+checkConnection();
+
+sequelize.sync().then(()=>console.log('created tables')).catch(()=>console.log('Edoor'))
+
+export default sequelize;

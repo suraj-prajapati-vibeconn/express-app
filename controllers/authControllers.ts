@@ -1,21 +1,22 @@
-import prisma from "../database/db";
+import sequelize from "../database/db";
 // import { verifyUserQuery, creatUserQuery } from "../queries/authQueries";
 // import { v4 as uid } from "uuid";
 import { createToken } from "../utils/session";
 import { IUserRequest } from "../types/userRequests";
 import { Response } from "express";
+import User from "../models/userModel";
 
 const verifyUser = async (req: IUserRequest, res: Response) => {
   try {
     const { username, password } = req.body;
     // console.log(username, password);
-    const queryRes: any = await prisma.userDetails.findFirst({
+    const queryRes: any = await User.findOne({
       where:{
         name:username,
         password:password
       }
     })
-    // console.log(queryRes);
+    console.log(queryRes);
     if (queryRes) {
       const token = createToken(queryRes);
       res.cookie("token", token);
@@ -37,12 +38,12 @@ const createUser = async (req: IUserRequest, res: Response) => {
   try {
     const { username, password } = req.body;
     // console.log(username, password);
-    const queryRes: any = await prisma.userDetails.create({data:{
+    const queryRes: any = await User.create({
       name:username,
       password:password,
       isAdmin:true
+    })
 
-    }})
     const token = createToken(queryRes);
     res.cookie("token", token);
     res.redirect("/");
