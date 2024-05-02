@@ -6,7 +6,8 @@ const Director = sequelize.define(
     {
       did:{
         type:DataTypes.INTEGER,
-        autoIncrement:true
+        autoIncrement:true,
+        primaryKey:true
       },
       name: {
         type: DataTypes.STRING,

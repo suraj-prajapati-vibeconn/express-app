@@ -25,3 +25,15 @@ const User = sequelize.define(
   );
 
 export default User;
+
+import Car from "./carModel";
+import CompanyDirector from "./companyDirectorModel";
+import Company from "./companyModel";
+import Director from "./directorModel";
+
+User.hasMany(Car, { foreignKey: 'uid' });
+
+
+Company.belongsToMany(Director, { through: CompanyDirector, foreignKey: 'com_id' });
+Director.belongsToMany(Company, { through: CompanyDirector, foreignKey: 'did' });
+

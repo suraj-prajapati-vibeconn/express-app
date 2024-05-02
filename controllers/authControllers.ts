@@ -4,7 +4,7 @@ import sequelize from "../database/db";
 import { createToken } from "../utils/session";
 import { IUserRequest } from "../types/userRequests";
 import { Response } from "express";
-import User from "../models/userModel";
+import User from '../models/userModel'
 
 const verifyUser = async (req: IUserRequest, res: Response) => {
   try {
@@ -18,7 +18,7 @@ const verifyUser = async (req: IUserRequest, res: Response) => {
     })
     console.log(queryRes);
     if (queryRes) {
-      const token = createToken(queryRes);
+      const token = createToken(queryRes.dataValues);
       res.cookie("token", token);
       res.redirect("/");
     } else {
@@ -41,10 +41,10 @@ const createUser = async (req: IUserRequest, res: Response) => {
     const queryRes: any = await User.create({
       name:username,
       password:password,
-      isAdmin:true
+      isAdmin:false
     })
 
-    const token = createToken(queryRes);
+    const token = createToken(queryRes.dataValues);
     res.cookie("token", token);
     res.redirect("/");
   } catch (error:any) {
