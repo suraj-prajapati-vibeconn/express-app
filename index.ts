@@ -12,11 +12,13 @@ const app = express();
 import webViewRouter from './routes/staticRoutes';
 import userRouter from './routes/userRoutes';
 import queryRouter from './routes/queryRoutes';
+import cors from 'cors'
 
 // data parsers
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors())
 
 app.use(express.static(__dirname + '/expressApp/public'));
 
