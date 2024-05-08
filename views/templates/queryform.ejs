@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/styles/queryform.css">
-<div class="c">
+<div class="queryform">
   <form action="/" method="get" class="form1">
     <label for="groupType">Select Group</label>
     <select name="groupType" id="groupType">
@@ -15,7 +15,7 @@
     <button type="submit">Go</button>
   </form>
 
-  <% if (( locals.actionType === 'search')) { %>
+  <% if (( actionType === 'search')) { %>
   <form action="query/getdata" method="post" class="form2">
     <input type="text" name="query" id="query" />
     <button type="submit">Search</button>
@@ -38,7 +38,6 @@
         <input type="text" name="name" id="name" placeholder="Company name" />
         <button type="submit">Create</button>
     </form>
-
     <% } %>
 
     <% if (groupType==='director') { %>

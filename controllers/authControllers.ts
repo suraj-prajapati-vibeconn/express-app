@@ -1,54 +1,79 @@
 import prisma from "../database/db";
-// import { verifyUserQuery, creatUserQuery } from "../queries/authQueries";
-// import { v4 as uid } from "uuid";
-import { createToken } from "../utils/session";
+import { createHashedPassword, createToken, validateHashedPassword, } from "../utils/session";
 import { IUserRequest } from "../types/userRequests";
 import { Response } from "express";
 
 const verifyUser = async (req: IUserRequest, res: Response) => {
   try {
-    const { username, password } = req.body;
-    // console.log(username, password);
-    const queryRes: any = await prisma.userDetails.findFirst({
-      where:{
-        name:username,
-        password:password
+    const { email, password } = req.body;
+    const userData = await prisma.user_details.findFirst({
+      where: {
+        email: email,
+      },
+      include: {
+        roles: {
+          select:{
+            uid:true
+          }
+        },
+        
       }
     })
-    // console.log(queryRes);
-    if (queryRes) {
-      const token = createToken(queryRes);
-      res.cookie("token", token);
-      res.redirect("/");
+    if (userData) {
+      const passwordMatched = await validateHashedPassword(password, userData.password);
+      if (passwordMatched) {
+        const token = createToken(userData);
+        res.cookie("token", token);
+        res.redirect("/");
+      } else {
+        res.redirect(401, "/login?error=invalid credentials");
+      }
     } else {
-      res.redirect("/login");
+      res.redirect(401, "/login?error=invalid credentials");
     }
   } catch (error: any) {
-    console.log(error)
-    res.status(200).send({
+    console.log(error);
+    res.status(500).send({
       success: false,
       error: error.message,
       message: "Error ocurred",
     });
   }
 };
+
 
 const createUser = async (req: IUserRequest, res: Response) => {
   try {
-    const { username, password } = req.body;
-    // console.log(username, password);
-    const queryRes: any = await prisma.userDetails.create({data:{
-      name:username,
-      password:password,
-      isAdmin:true
+    const { name, email, password } = req.body;
+    const hashedPassword = await createHashedPassword(password);
 
-    }})
-    const token = createToken(queryRes);
-    res.cookie("token", token);
-    res.redirect("/");
-  } catch (error:any) {
-    console.log(error)
-    res.status(200).send({
+    const userCreatedQueryRes = await prisma.user_details.create({
+      data: {
+        email: email,
+        name: name,
+        password: hashedPassword
+      }
+    })
+
+    const rolesCreatedQueryRes = await prisma.roles.create({
+      data: {
+        uid: userCreatedQueryRes.uid,
+        admin: true,
+        user: true
+      }
+    });
+
+    if (rolesCreatedQueryRes) {
+      const token = createToken({ ...rolesCreatedQueryRes, name, email });
+      res.cookie("token", token);
+      res.redirect("/");
+    } else {
+      res.redirect(500,'/login?error=error while creating account.');
+    }
+
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).send({
       success: false,
       error: error.message,
       message: "Error ocurred",
@@ -56,14 +81,12 @@ const createUser = async (req: IUserRequest, res: Response) => {
   }
 };
 
-const logOut = (req:IUserRequest, res:Response) => {
+const logOut = (req: IUserRequest, res: Response) => {
   try {
     res.cookie('token', '');
-    // const userRemoved = removeUser(uid);
-    // if (userRemoved) {
     res.redirect("/login");
-    // }
   } catch (error) {
+    console.log(error);
     res.redirect("/");
   }
 };

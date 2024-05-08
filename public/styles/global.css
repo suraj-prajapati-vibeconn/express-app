@@ -1,12 +1,40 @@
-.nav-item form button {
-    outline: none;
-    background: transparent;
-    border: none;
-    margin: auto;
-    padding: 6px;
-    color: #f41a1a;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
-.main-full-screen{
-    height: calc(100vh - 112px);
+
+.navbar{
+    height: 50px;
+}
+.log-out-btn {
+    outline: none;
+    border: none;
+    background-color: transparent !important;
+    color: blue !important;
+    cursor: pointer;
+    padding: 0 !important;
+}
+
+.main-full-screen {
+    min-height: calc(100vh - 100px);
     background-color: #eee;
+}
+
+.footer {   
+    height: 50px;
+}
+
+.errorMessage{
+    background-color: red;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.successMessage{
+    background-color: rgb(48, 200, 25);
+    color: white;
+    padding: 10px;
+    text-align: center;
 }

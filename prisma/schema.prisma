@@ -7,42 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model UserDetails{
+model user_details{
   uid Int @id @default(autoincrement())
-  name String @unique
+  name String
+  email String @unique
   password String
-  isAdmin Boolean @default(false) 
-  cars Cars[]
+  cars cars[]
+  roles roles?
 }
 
-model Cars{
+model cars{
   cid Int @id @default(autoincrement())
   name String
   model String
-  user UserDetails @relation(fields: [uid], references: [uid])
+  user_details user_details @relation(fields: [uid], references: [uid])
   uid Int
 }
 
-model Directors{
+model directors{
   did Int @id @default(autoincrement())
   name String
-  companydirectors CompanyDirector[]
-
+  companies_directors companies_directors[]
 }
 
-model Company{
+model companies{
   com_id Int @id @default(autoincrement())
   name String
-  companydirectors CompanyDirector[]
+  companydirectors companies_directors[]
 }
 
-model CompanyDirector{
+model companies_directors{
   id Int @id @default(autoincrement())
 
-  director Directors @relation(fields: [did], references: [did])
+  directors directors @relation(fields: [did], references: [did])
   did Int
 
-  company Company @relation(fields: [cid], references: [com_id])
+  companies companies @relation(fields: [cid], references: [com_id])
   cid Int
   
+}
+
+model roles{
+  user_details user_details @relation(fields: [uid], references: [uid])
+  uid Int @unique
+  admin Boolean
+  user Boolean
+}
+
+model contact_messages{
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  message String
 }

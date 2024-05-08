@@ -7,7 +7,7 @@ const createData = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
     
-    const queryRes: any = await prisma.userDetails.findFirst({
+    const queryRes: any = await prisma.user_details.findFirst({
       where:{
         name:username,
         password:password
@@ -19,7 +19,7 @@ const createData = async (req: Request, res: Response) => {
       res.cookie("token", token);
       res.redirect("/");
     } else {
-      res.redirect("/login");
+      res.redirect("/login?error=unauthorizedacess");
     }
   } catch (error: any) {
     console.log(error)
@@ -35,10 +35,10 @@ const getData = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
     // console.log(username, password);
-    const queryRes: any = await prisma.userDetails.create({data:{
+    const queryRes: any = await prisma.user_details.create({data:{
       name:username,
       password:password,
-      isAdmin:true
+      email:'email'
 
     }})
     const token = createToken(queryRes);

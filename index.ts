@@ -1,26 +1,31 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-// import dotenv from 'dotenv';
-import path, { dirname } from 'path';
-const __dirname = dirname(process.cwd());
-
+import { dirname } from 'path';
+import cors from 'cors'
 import 'dotenv/config';
-const app = express();
 
-// routes
+
+// routes imports
 import webViewRouter from './routes/staticRoutes';
 import userRouter from './routes/userRoutes';
 import queryRouter from './routes/queryRoutes';
-import cors from 'cors'
+import contactRouter from './routes/contactRoute';
+
+//express app
+const app = express();
+
+const __dirname = dirname(process.cwd());
 
 // data parsers
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
+
+// cors policy handler
 app.use(cors())
 
-app.use(express.static(__dirname + '/expressApp/public'));
+app.use(express.static(__dirname + '/expressApp/public/'));
 
 // set the template engine as ejs
 app.set('view engine', 'ejs');
@@ -32,6 +37,11 @@ app.use('/', webViewRouter);
 app.use('/users', userRouter);
 
 app.use('/query', queryRouter);
+
+
+// mail routes
+
+app.use('/contact', contactRouter);
 
 // run the server
 app.listen(process.env.PORT, ()=>{
