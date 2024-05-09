@@ -11,6 +11,7 @@ import webViewRouter from './routes/staticRoutes';
 import userRouter from './routes/userRoutes';
 import queryRouter from './routes/queryRoutes';
 import contactRouter from './routes/contactRoute';
+import startGraphQlServer from './graphql/server';
 
 //express app
 const app = express();
@@ -26,6 +27,9 @@ app.use(express.json());
 app.use(cors())
 
 app.use(express.static(__dirname + '/expressApp/public/'));
+
+
+// app.use('/graphql', )
 
 // set the template engine as ejs
 app.set('view engine', 'ejs');
@@ -43,6 +47,8 @@ app.use('/query', queryRouter);
 
 app.use('/contact', contactRouter);
 
+
+startGraphQlServer();
 // run the server
 app.listen(process.env.PORT, ()=>{
     console.log('server is running on port', process.env.PORT);
