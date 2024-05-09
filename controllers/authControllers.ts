@@ -12,11 +12,11 @@ const verifyUser = async (req: IUserRequest, res: Response) => {
       },
       include: {
         roles: {
-          select:{
-            uid:true
+          select: {
+            uid: true
           }
         },
-        
+
       }
     })
     if (userData) {
@@ -26,10 +26,10 @@ const verifyUser = async (req: IUserRequest, res: Response) => {
         res.cookie("token", token);
         res.redirect("/");
       } else {
-        res.redirect(401, "/login?error=invalid credentials");
+        res.redirect("/login?error=invalid credentials");
       }
     } else {
-      res.redirect(401, "/login?error=invalid credentials");
+      res.redirect("/login?error=invalid credentials");
     }
   } catch (error: any) {
     console.log(error);
@@ -68,7 +68,7 @@ const createUser = async (req: IUserRequest, res: Response) => {
       res.cookie("token", token);
       res.redirect("/");
     } else {
-      res.redirect(500,'/login?error=error while creating account.');
+      res.redirect(500, '/login?error=error while creating account.');
     }
 
   } catch (error: any) {

@@ -25,15 +25,15 @@
     height: 50px;
 }
 
-.errorMessage{
+#errorMessage{
     background-color: red;
     color: white;
     padding: 10px;
     text-align: center;
 }
 
-.successMessage{
-    background-color: rgb(48, 200, 25);
+#successMessage{
+    background-color: rgb(28, 207, 0);
     color: white;
     padding: 10px;
     text-align: center;

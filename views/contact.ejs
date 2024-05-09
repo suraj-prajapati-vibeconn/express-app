@@ -1,10 +1,10 @@
 <%- include('templates/header.ejs',{title : title}) %>
 <div class="container-fluid main-full-screen">
     <% if (error) { %>
-        <div class="errorMessage"><%= error %> </div>
+        <div id="errorMessage"><%= error %> </div>
     <% } %>
     <% if (success) { %>
-        <div class="successMessage"><%= success %>  </div>
+        <div id="successMessage"><%= success %>  </div>
     <% } %>
   <div class="container pt-5">
     <div class="formWrapper p-5 bg-white">
@@ -34,3 +34,5 @@
   </div>
 </div>
 <%- include( 'templates/footer.ejs' ) %>
+<script src="/scripts/removeMessages.js">
+</script>
